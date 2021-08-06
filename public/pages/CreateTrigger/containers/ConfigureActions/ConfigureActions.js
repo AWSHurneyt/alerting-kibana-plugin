@@ -190,7 +190,6 @@ class ConfigureActions extends React.Component {
           sendTestMessage={this.sendTestMessage}
           setFlyout={setFlyout}
           fieldPath={fieldPath}
-          values={values}
         />
       ))
     ) : (
