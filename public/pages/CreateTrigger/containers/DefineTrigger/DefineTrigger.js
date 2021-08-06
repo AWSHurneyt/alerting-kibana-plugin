@@ -16,7 +16,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { EuiAccordion, EuiButton, EuiSpacer, EuiTitle } from '@elastic/eui';
+import { EuiAccordion, EuiButton, EuiFormRow, EuiSpacer, EuiText, EuiTitle } from '@elastic/eui';
 import 'brace/mode/plain_text';
 import { FormikFieldText, FormikSelect } from '../../../../components/FormControls';
 import { isInvalid, hasError } from '../../../../utils/validate';
@@ -42,9 +42,7 @@ const defaultRowProps = {
 };
 const defaultInputProps = { isInvalid };
 
-const selectFieldProps = {
-  validate: () => {},
-};
+const selectFieldProps = { validate: () => {} };
 
 const selectRowProps = {
   label: 'Severity level',
@@ -105,6 +103,8 @@ class DefineTrigger extends Component {
       case SEARCH_TYPE.LOCAL_URI:
         const localUriRequest = buildLocalUriRequest(formikValues);
         _.set(monitorToExecute, 'inputs[0].uri', localUriRequest);
+        break;
+      case SEARCH_TYPE.AD:
         break;
       default:
         console.log(`Unsupported searchType found: ${JSON.stringify(searchType)}`, searchType);
@@ -216,7 +216,7 @@ class DefineTrigger extends Component {
           </EuiButton>
         }
       >
-        <div style={{ padding: '0px 20px' }}>
+        <div style={{ padding: '0px 20px', paddingTop: '20px' }}>
           <FormikFieldText
             name={`${fieldPath}name`}
             fieldProps={{ validate: validateTriggerName(triggers, triggerValues, fieldPath) }}
@@ -234,14 +234,17 @@ class DefineTrigger extends Component {
           />
           <EuiSpacer size={'m'} />
           {isAd ? (
-            <div>
+            <div style={{ paddingLeft: '10px', marginTop: '0px' }}>
+              <EuiFormRow helpText={'Define type of anomaly detector trigger'}>
+                <EuiText size={'xs'} style={{ paddingBottom: '0px', marginBottom: '0px' }}>
+                  <h4>Trigger type</h4>
+                </EuiText>
+              </EuiFormRow>
               <FormikSelect
                 name={`${fieldPath}anomalyDetector.triggerType`}
                 formRow
                 rowProps={{
-                  label: 'Trigger type',
-                  helpText: 'Define type of trigger',
-                  style: { paddingLeft: '10px', marginTop: '0px' },
+                  style: { paddingTop: '0px', marginTop: '0px' },
                 }}
                 inputProps={{ options: triggerOptions }}
               />

@@ -41,8 +41,6 @@ export function formikToMonitor(values) {
 
 export function formikToInputs(values) {
   switch (values.searchType) {
-    case SEARCH_TYPE.AD:
-      return formikToAd(values);
     case SEARCH_TYPE.LOCAL_URI:
       return formikToLocalUri(values);
     default:
