@@ -90,8 +90,9 @@ const MonitorDefinitionCard = ({ values, resetResponse, plugins }) => {
             />
           </EuiFlexItem>
         )}
-        {/* TODO: only show the anomaly detector option when anomaly detection plugin is present */}
-        {hasADPlugin && (
+
+        {/*// Only show the anomaly detector option when anomaly detection plugin is present, but not for aggregation monitors.*/}
+        {hasADPlugin && !isAggregationMonitor && (
           <EuiFlexItem>
             <EuiSpacer />
             <FormikCheckableCard

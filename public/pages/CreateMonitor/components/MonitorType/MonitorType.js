@@ -16,7 +16,8 @@
 import React from 'react';
 import { EuiFlexGroup, EuiFlexItem, EuiSpacer } from '@elastic/eui';
 import FormikCheckableCard from '../../../../components/FormControls/FormikCheckableCard';
-import { MONITOR_TYPE } from '../../../../utils/constants';
+import { MONITOR_TYPE, SEARCH_TYPE } from '../../../../utils/constants';
+import { FORMIK_INITIAL_VALUES } from '../../containers/CreateMonitor/utils/constants';
 
 const onChangeDefinition = (e, form) => {
   const type = e.target.value;
@@ -60,8 +61,13 @@ const MonitorType = ({ values }) => (
             checked: values.monitor_type === MONITOR_TYPE.AGGREGATION,
             value: MONITOR_TYPE.AGGREGATION,
             onChange: (e, field, form) => {
+              const searchType = _.get(values, 'searchType');
+              if (searchType !== SEARCH_TYPE.GRAPH || searchType !== SEARCH_TYPE.QUERY) {
+                // Clear the form when changing the monitor type from traditional to aggregation
+                // if the search type is unsupported, but keep the monitor name.
+                form.setValues({ ...FORMIK_INITIAL_VALUES, name: values.name });
+              }
               onChangeDefinition(e, form);
-
             },
           }}
         />
